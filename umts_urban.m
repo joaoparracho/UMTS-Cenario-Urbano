@@ -5,15 +5,14 @@ SAMPLES = 512;
 load(['backup_' num2str(SAMPLES)]);
 
 % The maximum transmitting power of UMTS user equipment is 250 mW
-Ptx=10*log(1.5);
-Prx=0;
-Gtx=10;Grx=2;
-txAltura=10;
+Ptx=10*log(10);
+Gtx=20;Grx=10;
+txAltura=60;
 rxAltura=10;
 fc=2.1e9;
 x=165;y=148;
-radius=10000;
 Re = earthRadius('meters');
+radius=Re;
 convTorad=pi/180;
 lambda=3e8/fc;
 
@@ -34,7 +33,6 @@ R = georefpostings([min(lat_map(:)),max(lat_map(:))],[min(lng_map(:)),max(lng_ma
 tic
 [visgrid,~] = viewshed_nova(elevation_map,R,lat_map(x,y),lng_map(x,y),txAltura,rxAltura);
 toc
-
 
 %% ================================================================== %%
 disp('Displaying Data');
@@ -63,26 +61,41 @@ elevation_visible(~visgrid)=Inf;
 dAll=d;
 d(~visgrid)=Inf;
 
-lfs=zeros(size(d));
-lfs(visgrid)=20.*log(4*pi.*d(visgrid)./lambda);
-lfs(~visgrid)=PL_Hata(fc,dAll(~visgrid),elevation_map(x,y),elevation_map(~visgrid));
+lfs=NaN(size(d));
+lfs(visgrid)=PL_free(fc,dAll(visgrid),Gtx,Grx);
+%lfs(~visgrid)=PL_Hata(fc,dAll(~visgrid),elevation_map(x,y),elevation_map(~visgrid));
 hata=PL_Hata(fc,dAll,elevation_map(x,y),elevation_map);
 ieee802=PL_IEEE80216d(fc,dAll,'A',elevation_map(x,y),elevation_map,'Okumura');
 free=PL_free(fc,dAll,Gtx,Grx);
 
 Prx=Ptx+Gtx+Grx-lfs;
+Prx(~radiusD)=Inf;
 
 %% ================================================================== %%
-plot3(lng_map(radiusD),lat_map(radiusD),elevation_map(radiusD),'r.','markersize',0.1,'DisplayName','InsideRadius');
+%plot3(lng_map(radiusD),lat_map(radiusD),elevation_map(radiusD),'r.','markersize',0.1,'DisplayName','InsideRadius');
 plot3(lng_visible,lat_visible,elevation_visible,'g.','markersize',5,'DisplayName','Visible');
 plot3(lng_map(x,y),lat_map(x,y),elevation_map(x,y),'b.','markersize',50,'DisplayName','Tx')
 %plot3([lng_map(coorXMin ,coorYMin),lng_map(coorXMax ,coorYMax)],[lat_map(coorXMin ,coorYMin),lat_map(coorXMax ,coorYMax)],[elevation_map(coorXMin ,coorYMin),elevation_map(coorXMax ,coorYMax)],'k')
-%plot3(lat_map(~visgrid),lat_visible(~visgrid),elevation_visible(~visgrid),'r.','markersize',4,'DisplayName','Obscured');
 
 figure
 title('hata');
-mesh(lng_map(1,:), lat_map(:,1), Prx);
+meshc(lng_map(1,:), lat_map(:,1), Prx);
+colormap(parula(5))
 figure
 meshc(lng_map(1,:), lat_map(:,1), angles);
 
+%% ================================================================== %%
+AA_func(max(lat_map(:)),min(lat_map(:)),min(lng_map(:)),max(lng_map(:)),Prx,'urbanData')
 
+% tx = txsite('Name','MathWorks', ...
+%     'Latitude',lat_map(165,148), ...
+%     'Longitude',lng_map(165,148), ...
+%     'Antenna',design(dipole,fc), ...
+%     'AntennaHeight',10, ...        % Units: meters
+%     'TransmitterFrequency',fc, ... % Units: Hz
+%     'TransmitterPower',0.01);        % Units: Watts
+% viewer.Basemap = "openstreetmap";
+% siteviewer;
+% show(tx)
+% coverage(tx,'freespace', ...
+%     'SignalStrengths',-90)

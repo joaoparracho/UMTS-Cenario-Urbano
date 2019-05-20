@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://earth.google.com/kml/2.1">
+  <Folder>
+   <name>Signal level - urbanData</name>
+       <GroundOverlay>
+		<Icon>
+              <href>urbanData.png</href>
+		</Icon>
+            <LatLonBox>
+               <north>39.6759</north>
+               <south>39.2827</south>
+               <east>-8.9504</east>
+               <west>-8.6601</west>
+               <rotation>0.0</rotation>
+            </LatLonBox>
+       </GroundOverlay>
+       <ScreenOverlay>
+          <name>Color Key</name>
+            <description>Contour Color Key</description>
+          <Icon>
+            <href>z_Legend.jpg</href>
+          </Icon>
+          <overlayXY x="0" y="1" xunits="fraction" yunits="fraction"/>
+          <screenXY x="0" y="1" xunits="fraction" yunits="fraction"/>
+          <rotationXY x="0" y="0" xunits="fraction" yunits="fraction"/>
+          <size x="0" y="0" xunits="fraction" yunits="fraction"/>
+       </ScreenOverlay>
+  </Folder>
+</kml>
