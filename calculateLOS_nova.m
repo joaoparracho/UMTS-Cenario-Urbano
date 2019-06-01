@@ -1,6 +1,6 @@
 function [vis0, dist, h, lattrk, lontrk, x1, z1, x2, z2, npts] ...
     = calculateLOS_nova(F, R, lat1, lon1, lat2, lon2, oalt, talt, ...
-        observerAltitudeIsAGL, targetAltitudeIsAGL, actualradius, apparentradius)
+    observerAltitudeIsAGL, targetAltitudeIsAGL, actualradius, apparentradius)
 % Perform the line-of-sight computations needed by LOS2 and VIEWSHED.
 
 % Copyright 2014-2015 The MathWorks, Inc.
@@ -26,25 +26,18 @@ function [lat, lon, arclenInRadians, npts] = sampleGreatCircle(lat1, lon1, lat2,
 %  Compute sort of maximum angular distance between the end points.
 maxdist = max(abs(lat2 - lat1), abs(lon2 - lon1));
 
-if maxdist > spacingInDegrees
-    %  Insert points using linear interpolation.
-    npts = 1 + ceil(maxdist/spacingInDegrees);
-    
-    [lat, lon, arclenInRadians] = doTrack2(deg2rad(lat1), deg2rad(lon1), deg2rad(lat2), deg2rad(lon2), npts);
-    
-    lat = rad2deg(lat);
-    lon = rad2deg(lon);
-    
-    %  Use exact endpoint.
-    for k = 1:numel(npts) 
-        lat(npts(k),k) = lat2(k);
-        lon(npts(k),k) = lon2(k);
-    end
-    
-else
-    lat = [lat1; lat2];
-    lon = [lon1; lon2];
-    arclenInRadians = greatcircleinv(deg2rad(lat1), deg2rad(lon1), deg2rad(lat2), deg2rad(lon2));
+%  Insert points using linear interpolation.
+npts = 1 + ceil(maxdist/spacingInDegrees);
+
+[lat, lon, arclenInRadians] = doTrack2(deg2rad(lat1), deg2rad(lon1), deg2rad(lat2), deg2rad(lon2), npts);
+
+lat = rad2deg(lat);
+lon = rad2deg(lon);
+
+%  Use exact endpoint.
+for k = 1:numel(npts)
+    lat(npts(k),k) = lat2(k);
+    lon(npts(k),k) = lon2(k);
 end
 
 %--------------------------------------------------------------------------
@@ -142,7 +135,7 @@ else
     z = zin;
 end
 
-% Convert AGL observer altitude to MSL 
+% Convert AGL observer altitude to MSL
 if observerAltitudeIsAGL
     %  Observer is at first location
     oalt =  z(1) + oalt;
@@ -164,9 +157,9 @@ end
 % Find the cumulative maximum:  maxtohere(k) equals max(ang(1:k))
 maxangtohere = cummax(ang, 2);
 
-% Adjust the angles for the altitude of the target height above ground level 
+% Adjust the angles for the altitude of the target height above ground level
 % or sea level and redo calculation of angles. This makes the obscuring factor
-% the terrain only, and not any target height. To model stuff above the terrain 
+% the terrain only, and not any target height. To model stuff above the terrain
 % like a forest canopy, pass in a z vector that has the added heights.
 
 if targetAltitudeIsAGL
@@ -194,7 +187,7 @@ if x2(1) == 0 && z2(1) == 0
     ang2(1) = pi/2;  % Look straight down at observer's location
 end
 
-% Visible are points that rise above the maximum angle of LOS of intervening 
+% Visible are points that rise above the maximum angle of LOS of intervening
 % terrain.
 
 vis = (ang2 >= maxangtohere);
