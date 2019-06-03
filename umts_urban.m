@@ -53,6 +53,10 @@ for i = 1:NUM_ANTENAS
     visgridALl = visgridALl | visgrid(:,:,i);
 end
 visgrid=logical(visgrid);
+
+[bestPotPixel,bestServerPixel]=max(Prx,[],3);
+bestServerPixel(~visgridALl)=NaN;
+
 %% ================================================================== %%
 disp('Displaying Data');
 fprintf("Highest point:\n\t Latitude (º)=%.3f \n\t Longitude (º)=%.3f \n\t Elevation (m)=%.3f \n",lng_map(coorXMax,coorYMax), lat_map(coorXMax,coorYMax),max_elev)
@@ -77,6 +81,11 @@ colormap(parula(5))
 
 surf(lng_map(1,:), lat_map(:,1), elevation_map,PrxT, 'LineStyle' , ':')
 
+
+figure
+axis tight
+surf(lng_map(1,:), lat_map(:,1), elevation_map,bestServerPixel, 'LineStyle' , ':')
+colorbar
 %% ================================================================== %%
 
 AA_func(max(lat_map(:)),min(lat_map(:)),min(lng_map(:)),max(lng_map(:)),PrxT,'urbanData')
