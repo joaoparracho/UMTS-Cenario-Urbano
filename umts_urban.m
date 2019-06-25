@@ -2,17 +2,16 @@ clear
 close all
 
 SAMPLES = 512;
-NUM_ANTENAS = 5;
+NUM_ANTENAS = 4;
 load(['backup_Lisboa_' num2str(SAMPLES)]);
 % Coord1 = [38.8950392,-9.3264467];
 % Coord2 = [38.7224502,-9.1289357];
 
-% The maximum transmitting power of UMTS user equipment is 250 mW
 Ptx=50; %dbm
 Grx=1;
-txAltura=25;
+txAltura=30;
 rxAltura=1;
-fc=2.1e9;
+fc=0.4e9;
 Re=earthRadius('meters');
 radius=Re;
 convTorad=pi/180;
@@ -45,15 +44,18 @@ R = georefpostings([min(lat_map(:)),max(lat_map(:))],[min(lng_map(:)),max(lng_ma
 % x(x==0) = sqrt(NUM_ANTENAS)*passo;
 % x=floor(x);
 
-x=[65,385,128,249,249];
-y=[129,129,385,333,117];
+x=[1,262,11,263,249];
+y=[230,240,384,288,117];
 antennas = ["omni" ,"06", "duo886", "14","duo4868"];
+PrxT=NaN(SAMPLES,SAMPLES);
 visgridALl = logical(zeros(SAMPLES,SAMPLES));
 for i = 1:NUM_ANTENAS
     [lat_visible(:,:,i),lng_visible(:,:,i),elevation_visible(:,:,i),visgrid(:,:,i),d(:,:,i),vrtangles(:,:,i),lfs(:,:,i),hrzAngle(:,:,i)]=cm_ParrachoMota(lat_map,lng_map,elevation_map,lat_map(x(i),y(i)),lng_map(x(i),y(i)),elevation_map(x(i),y(i)),rxAltura,txAltura,fc,'Hata',SAMPLES,R);
     Gtx(:,:,i)=getGtxAntennasPM(hrzAngle(:,:,i),vrtangles(:,:,i),antennas(i));
     Prx(:,:,i)=Ptx+Gtx(:,:,i)+Grx-lfs(:,:,i);
     visgridALl = visgridALl | visgrid(:,:,i);
+    PrAux=Prx(:,:,i);
+    PrxT(logical(visgrid(:,:,i)))= PrAux(logical((visgrid(:,:,i))));
 end
 visgrid=logical(visgrid);
 prcCvr = size(find(visgridALl==1),1)/(SAMPLES^2);
@@ -67,18 +69,11 @@ axis tight
 surf(lng_map(1,:), lat_map(:,1), elevation_map,Prx(:,:,1), 'LineStyle' , ':');
 colorbar
 
-% PrxT = Prx(:,:,1);
-PrxT=NaN(SAMPLES,SAMPLES);
 figure
 title('hata');
-hold on
-% meshc(lng_map(1,:), lat_map(:,1), Prx(:,:,1));j
-for i = 1:NUM_ANTENAS 
-    meshc(lng_map(1,:), lat_map(:,1), Prx(:,:,i));
-    PrAux=Prx(:,:,i);
-    PrxT(visgrid(:,:,i))= PrAux(visgrid(:,:,i));
-end
+meshc(lng_map(1,:), lat_map(:,1), Prx(:,:,i));
 colormap(parula(5))
+
 figure
 surf(lng_map(1,:), lat_map(:,1), elevation_map,PrxT, 'LineStyle' , ':')
 

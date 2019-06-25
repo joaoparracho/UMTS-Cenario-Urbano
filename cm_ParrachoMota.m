@@ -9,7 +9,7 @@ convTorad=pi/180;
 % for y= 1:64:512
 %     for x= 1:64:512
 %         count=count+1;
-[visgrid,~] = viewshed_nova(elevation_map,R,lat,lng,txAltura,rxAltura);
+[visgrid,~] = viewshed(elevation_map,R,lat,lng,txAltura,rxAltura);
 %         [visgrid,~] = viewshed(elevation_map,R,lat_map(x,y),lng_map(x,y),txAltura,rxAltura);
 %         coverPerc(count,3)= size(find(visgrid==1),1)/(size512);
 %         coverPerc(count,4)= size(find(visgrid(1:256,1:256)==1),1)/size512;
@@ -32,7 +32,6 @@ convTorad=pi/180;
 % coverPerc = sortrows(coverPerc,3,'descend');
 % save('CoverPerc.mat','coverPerc')
 visgrid=logical(visgrid);
-% visgrid=logical(visgrid) & radiusD;
 lat_visible=lat_map;
 lng_visible=lng_map;
 elevation_visible=elevation_map;
@@ -47,9 +46,9 @@ switch Method
     case 'Free'
         lfs(visgrid)=PL_free(fc,dAll,Gtx,Grx);
     case 'Hata'
-        lfs(visgrid)=PL_Hata(fc,dAll(visgrid),elev,elevation_map(visgrid));
+        lfs(visgrid)=PL_Hata(fc,dAll(visgrid),elev+txAltura,elevation_map(visgrid)+rxAltura);
     case 'IEEE802'
-        lfs(visgrid)=PL_IEEE80216d(fc,dAll(visgrid),'A',elev,elevation_map(visgrid),'Okumura');
+        lfs(visgrid)=PL_IEEE80216d(fc,dAll(visgrid),'A',elev+txAltura,elevation_map(visgrid)+rxAltura,'Okumura');
 end
 end
 
