@@ -7,5 +7,6 @@ angles(isnan(angles)==1)=0;
 
 az = atan2(sin(lng2-lng).*cos(lat2),cos(lat).*sin(lat2)-sin(lat).*cos(lat2).*cos(lng2-lng)).*180/pi;
 az(az<0)=360+az(az<0);
+
 end
 
