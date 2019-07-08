@@ -12,7 +12,7 @@ function PL=PL_free(fc,dist,Gt,Gr)
 %2010 John Wiley & Sons (Asia) Pte Ltd
 
 lamda = 3e8/fc;
-tmp = lamda./(4*pi*dist);
-if nargin>2,  tmp = tmp*sqrt(Gt);  end
-if nargin>3,  tmp = tmp*sqrt(Gr);  end
-PL = -20*log10(tmp); % Eq.(1.2)/(1.3)
+tmp = lamda./(4*pi.*dist);
+if nargin>2,  tmp = tmp.*sqrt(Gt);  end
+if nargin>3,  tmp = tmp.*sqrt(Gr);  end
+PL = -20.*log10(tmp); % Eq.(1.2)/(1.3)

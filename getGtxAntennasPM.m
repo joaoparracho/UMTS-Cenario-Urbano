@@ -1,29 +1,29 @@
 function [Gtx] = getGtxAntennasPM(az,ele,type)
 load('D:\IPL\IPL\3ºano\ComunicacoesMoveis\Scripts\UMTS_Urban\Antenas.mat');
 switch type
-    case '04'
+    case 'Allgon792085004'
         Ga = reshape(Allgon792085004.Ga,360,181)'; 
-    case '06'
+    case 'Allgon792085006'
         Ga = reshape(Allgon792085006.Ga,360,181)';
-    case '10'
+    case 'Allgon792085010'
         Ga = reshape(Allgon792085010.Ga,360,181)';
-    case '14'
+    case 'Allgon792085014'
         Ga = reshape(Allgon792085014.Ga,360,181)';
-    case 'duo460'
+    case 'DUO4606000850'
         Ga = reshape(DUO4606000850.Ga,360,181)';
-    case 'duo478'
+    case 'DUO4786500850'
         Ga = reshape(DUO4786500850.Ga,360,181)';
-    case 'duo4867'
+    case 'DUO4867000850'
         Ga = reshape(DUO4867000850.Ga,360,181)';
-    case 'duo4868'
+    case 'DUO4868600850'
         Ga = reshape(DUO4868600850.Ga,360,181)';
-    case 'duo860'
+    case 'DUO8606000850'
         Ga = reshape(DUO8606000850.Ga,360,181)';
-    case 'duo786'
+    case 'DUO8786500850'
         Ga = reshape(DUO8786500850.Ga,360,181)';
-    case 'duo886'
+    case 'DUO8867000850'
         Ga = reshape(DUO8867000850.Ga,360,181)';
-    case 'omni'
+    case 'Omni'
         Ga = zeros(360,181);
 end
  
