@@ -8,4 +8,4 @@ Trabalho constituido por uma interface grafica, UMTS_GUI.mlapp
 
 Joao Parracho
 
-![picture](https://github.com/joaoparracho/UMTS-Cenario-Urbano/urbanData.png)
+![picture](https://github.com/joaoparracho/UMTS-Cenario-Urbano/blob/master/urbanData.png)
