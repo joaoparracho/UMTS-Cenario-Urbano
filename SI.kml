@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://earth.google.com/kml/2.1">
+  <Folder>
+   <name>Signal level - SI</name>
+       <GroundOverlay>
+		<Icon>
+              <href>SI.png</href>
+		</Icon>
+            <LatLonBox>
+               <north>38.8951</north>
+               <south>38.7225</south>
+               <east>-9.3264</east>
+               <west>-9.1289</west>
+               <rotation>0.0</rotation>
+            </LatLonBox>
+       </GroundOverlay>
+       <ScreenOverlay>
+          <name>Color Key</name>
+            <description>Contour Color Key</description>
+          <Icon>
+          </Icon>
+          <overlayXY x="0" y="1" xunits="fraction" yunits="fraction"/>
+          <screenXY x="0" y="1" xunits="fraction" yunits="fraction"/>
+          <rotationXY x="0" y="0" xunits="fraction" yunits="fraction"/>
+          <size x="0" y="0" xunits="fraction" yunits="fraction"/>
+       </ScreenOverlay>
+  </Folder>
+</kml>

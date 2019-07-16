@@ -1,10 +1,8 @@
-function [lat_visible,lng_visible,elevation_visible,visgrid,d,angles,lfs,az,Gtx] = cm_ParrachoMota(lat_map,lng_map,elevation_map,lat,lng,elev,rxAltura,txAltura,fc,Method,SAMPLES,R,antena)
+function [lat_visible,lng_visible,elevation_visible,visgrid,d,angles,lfs,az,Gtx] = cm_ParrachoMota2(lat_map,lng_map,elevation_map,lat,lng,elev,rxAltura,txAltura,fc,Method,SAMPLES,R,visgrid,typeAntena)
 convTorad=pi/180;
 [d,angles,az]=CoorDistance(lat_map.*(convTorad),lng_map.*(convTorad),elevation_map+rxAltura,lat.*(convTorad),lng.*(convTorad),elev+txAltura);
 
-[visgrid,~] = viewshed(elevation_map,R,lat,lng,txAltura,rxAltura);
-
-Gtx=getGtxAntennasPM(az,angles,antena);
+Gtx=getGtxAntennasPM(az,angles,typeAntena);
 
 visgrid=logical(visgrid);
 lat_visible=lat_map;

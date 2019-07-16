@@ -1,5 +1,5 @@
 function [Gtx] = getGtxAntennasPM(az,ele,type)
-load('D:\IPL\IPL\3ºano\ComunicacoesMoveis\Scripts\UMTS_Urban\Antenas.mat');
+load('Antenas.mat');
 switch type
     case 'Allgon792085004'
         Ga = reshape(Allgon792085004.Ga,360,181)'; 
