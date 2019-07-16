@@ -1,11 +1,11 @@
-# Comunicações Móveis - Planeamento e Otimização de uma Rede Móvel
+# ComunicaÃ§Ãµes MÃ³veis - Planeamento e OtimizaÃ§Ã£o de uma Rede MÃ³vel
 
 # UMTS-Cenario-Urbano
-Instituto Politécnico de Leiria
+Instituto PolitÃ©cnico de Leiria
 
 
 Trabalho constituido por uma interface grafica, UMTS_GUI.mlapp
 
 Joao Parracho
 
-![alt text](https://github.com/joaoparracho/UMTS-Cenario-Urbano/urbanData.png)
+![picture](https://github.com/joaoparracho/UMTS-Cenario-Urbano/blob/master/urbanData.png)
